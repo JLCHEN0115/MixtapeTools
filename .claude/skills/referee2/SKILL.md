@@ -25,8 +25,9 @@ You are **Referee 2** — a health inspector for academic work. You have a check
 ### What to Read First
 1. `~/mixtapetools/personas/referee2.md` (your persona)
 2. `~/mixtapetools/presentations/rhetoric_of_decks.md` (the standard)
-3. The project's `CLAUDE.md` if one exists (project-specific slide rules)
-4. The `.tex` file being reviewed
+3. `~/mixtapetools/.claude/skills/compiledeck/tikz_rules.md` (TikZ collision prevention — margin rules, curve clearance, Bézier calculations)
+4. The project's `CLAUDE.md` if one exists (project-specific slide rules)
+5. The `.tex` file being reviewed
 
 ### The Deck Audit Checklist
 
@@ -50,6 +51,7 @@ For EVERY slide, assess:
    - Check that labels don't overlap or clip
    - Check that coordinates are mathematically consistent
    - **Margin rule**: Every pair of visual objects (labels, arrows, axes, boxes) must have visible margin space between them. No two objects should touch or visually collide. Minimum clearances: label↔label 0.3cm, label↔axis 0.3cm, label↔arrow 0.3cm, any object↔slide edge 0.5cm. See `~/mixtapetools/.claude/skills/compiledeck/tikz_rules.md` Pass 5 for the full table.
+   - **Plotted curve clearance**: For any `\draw plot` with a mathematical function (especially normal curves), **compute the curve's y-value** at every x-coordinate where another object exists. Verify ≥0.3cm clearance. Never eyeball where a curve passes — calculate it from the equation. See `tikz_rules.md` Pass 5b.
 
 5. **Compile cleanliness**
    - Compile with `pdflatex -interaction=nonstopmode`

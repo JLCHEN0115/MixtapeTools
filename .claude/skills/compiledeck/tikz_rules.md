@@ -205,6 +205,26 @@ Additional checks:
 - Arrow colors and stealth sizes consistent?
 - No two labels overlap?
 
+### Pass 5b: Plotted curves (normal distributions, arbitrary functions)
+
+**Problem this solves**: Labels, boxes, arrows, and other objects placed near plotted curves (e.g., `\draw plot` with mathematical functions) that overlap because the curve's position was never calculated. TikZ `plot` commands generate curves that the compiler renders but never checks for collisions. You must calculate curve positions yourself.
+
+**The rule**: For every plotted curve, compute its y-value at every x-coordinate where another object exists. Verify clearance.
+
+**For normal/Gaussian curves** of the form `plot ({A*\x}, {B + C*exp(-\x*\x/2)})`:
+- Peak is at x=0: `y_peak = B + C`
+- At any TikZ x-coordinate X: `x_norm = X / A`, then `y = B + C * exp(-x_norm^2 / 2)`
+- Every label, box edge, or arrow within the x-domain of the curve must clear the computed y-value by at least **0.3cm**
+
+**Example**: Curve `plot ({1.5*\x}, {0.3 + 2.0*exp(-\x*\x/2)})`:
+- Peak: y = 0.3 + 2.0 = 2.3
+- At x=1.5 (one SD): y = 0.3 + 2.0*0.607 = 1.51
+- At x=3.0 (two SD): y = 0.3 + 2.0*0.135 = 0.57
+- A label at y=3.0 near x=0 clears the peak by 0.7 ✓
+- A box with bottom edge at y=3.6 clears the peak by 1.3 ✓
+
+**Common failure**: Setting amplitude too high so the curve peak penetrates nearby boxes, or placing labels at y-positions that look clear in your head but sit inside the curve. Always compute, never eyeball.
+
 ### Pass 6: Open the PDF and visually confirm
 
 ---
