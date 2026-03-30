@@ -24,9 +24,11 @@ Produce output → /fletcher → interpret and write → complete project → fr
 
 In March 2026, I published a Substack post — which I later took down — claiming that AI-generated economics papers from the Social Catalyst Lab's APE project showed evidence of p-hacking. The evidence was a Brodeur ratio of 1.52 — 52% more reconstructed t-statistics just above the 1.96 significance threshold than just below. I had used Claude Code to extract coefficients and standard errors from 651 LaTeX manuscripts and divided them to construct t-statistics.
 
-Jason Fletcher left a comment a few days later:
+Gorkem Turgut Ozer had flagged the rounding problem in the comments almost immediately. I couldn't hear it. A few days later Jason Fletcher asked the same thing:
 
 > "Can you say something about rounding vs. p-hacking? What do you make of the huge spike at t-stat=1 in your first figure?"
+
+This time it landed. I spent five hours working through it before I understood what both of them had seen right away.
 
 I had looked at that figure many times before publishing. The spike at t=2 was what I was writing about. The spike at t=1 was sitting in the same figure. I had registered it and classified it as noise without asking why it was there — because the story I wanted to tell had already automated my perception.
 
