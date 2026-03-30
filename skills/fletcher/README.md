@@ -1,4 +1,4 @@
-# Fletcher: Own All the Numbers
+# Fletcher: Defamiliarizing the Familiar
 
 *A defamiliarization audit for empirical output.*
 
@@ -6,7 +6,7 @@
 
 ## The Story Behind This Skill
 
-In March 2026, I published a Substack post claiming that AI-generated economics papers from the Social Catalyst Lab's APE project showed evidence of p-hacking. The evidence was a Brodeur ratio of 1.52 — 52% more reconstructed t-statistics just above the 1.96 significance threshold than just below. I had used Claude Code to extract coefficients and standard errors from 651 LaTeX manuscripts and divided them to construct t-statistics.
+In March 2026, I published a Substack post — which I later took down — claiming that AI-generated economics papers from the Social Catalyst Lab's APE project showed evidence of p-hacking. The evidence was a Brodeur ratio of 1.52 — 52% more reconstructed t-statistics just above the 1.96 significance threshold than just below. I had used Claude Code to extract coefficients and standard errors from 651 LaTeX manuscripts and divided them to construct t-statistics.
 
 Jason Fletcher left a comment a few days later:
 
