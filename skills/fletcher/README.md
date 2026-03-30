@@ -6,13 +6,13 @@
 
 ## The Story Behind This Skill
 
-In March 2026, Scott Cunningham published a Substack post claiming that AI-generated economics papers from the Social Catalyst Lab's APE project showed evidence of p-hacking. The evidence was a Brodeur ratio of 1.52 — 52% more reconstructed t-statistics just above the 1.96 significance threshold than just below. He had used Claude Code to extract coefficients and standard errors from 651 LaTeX manuscripts and divided them to construct t-statistics.
+In March 2026, I published a Substack post claiming that AI-generated economics papers from the Social Catalyst Lab's APE project showed evidence of p-hacking. The evidence was a Brodeur ratio of 1.52 — 52% more reconstructed t-statistics just above the 1.96 significance threshold than just below. I had used Claude Code to extract coefficients and standard errors from 651 LaTeX manuscripts and divided them to construct t-statistics.
 
 Jason Fletcher left a comment a few days later:
 
 > "Can you say something about rounding vs. p-hacking? What do you make of the huge spike at t-stat=1 in your first figure?"
 
-Scott had looked at that figure many times before publishing. The spike at t=2 was what he was writing about. The spike at t=1 was sitting in the same figure. He had registered it and classified it as noise without asking why it was there — because the story he wanted to tell had already automated his perception.
+I had looked at that figure many times before publishing. The spike at t=2 was what I was writing about. The spike at t=1 was sitting in the same figure. I had registered it and classified it as noise without asking why it was there — because the story I wanted to tell had already automated my perception.
 
 That was the mistake. The spike at t=1 is the tell. There is no p-hacking story that produces a spike at t=1 — that value has no significance threshold. No researcher, human or AI, has any incentive to push results toward t=1. But rounding does produce it, for the same reason it produces spikes at t=2 and t=3: dividing two small rounded numbers yields a ratio of two small integers, and 1:1, 2:1, and 3:1 are the most common small integer ratios.
 
@@ -26,9 +26,9 @@ The full account, including the rounding mechanism and a simulation, is in [Clau
 
 Jason Fletcher described his practice as something he learned from his own graduate training — the habit of reviewing a student's table by stepping back from the main coefficient and asking about something else: an odd pattern, an unexpected sign, a sample size that didn't add up. More often than you'd like to admit, that question mattered.
 
-After the exchange with Scott, Fletcher wrote a Substack post generalizing the lesson: [**"Owning All the Numbers: Why every number in your output is your responsibility"**](https://jasonmfletcher.substack.com/p/owning-all-the-numbers). It's worth reading in full. The argument is that research training tends to focus on getting *the coefficient of interest* — clean data → run model → format key output — but the real task is owning the table. Owning it means that every number in it, before anyone asks, is something you've already interrogated.
+After our exchange, Fletcher wrote a Substack post generalizing the lesson: [**"Owning All the Numbers: Why every number in your output is your responsibility"**](https://jasonmfletcher.substack.com/p/owning-all-the-numbers). It's worth reading in full. The argument is that research training tends to focus on getting *the coefficient of interest* — clean data → run model → format key output — but the real task is owning the table. Owning it means that every number in it, before anyone asks, is something you've already interrogated.
 
-That habit is what Scott needed before he published. Fletcher approached the figure without a stake in the p-hacking conclusion and asked about the number Scott wasn't explaining. This skill tries to institutionalize that practice.
+That habit is what I needed before I published. Fletcher approached the figure without a stake in the p-hacking conclusion and asked about the number I wasn't explaining. This skill tries to institutionalize that practice.
 
 The Viktor Shklovsky principle: *art exists to defamiliarize — to make the stone stony again.* Habit makes perception automatic. We stop seeing our output because we've already decided what it means. The purpose of this audit is to break that. To make you see the figure as a stranger would, before the story has collapsed everything else into background noise.
 
