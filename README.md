@@ -184,7 +184,32 @@ A Claude Code **command** — invoke with `/compiledeck` — that embeds the ful
 
 **Usage:** Type `/compiledeck` when creating or editing a Beamer deck.
 
-### 5. Additional Commands
+### 5. TikZ Collision Audit
+
+**Location:** `.claude/skills/tikz/SKILL.md` (actual skill)
+
+A Claude Code **skill** — invoke with `/tikz path/to/file.tex` — that systematically audits and fixes every visual collision in every TikZ figure in a LaTeX file. Labels sitting on arrows, text inside boxes, arrows crossing each other — found and fixed using measurement, not intuition.
+
+**The problem it solves:** TikZ compiles silently even when labels overlap arrows or text bleeds into box edges. The compiler catches nothing. This skill catches everything.
+
+**How it works:** Six ordered passes, each targeting a specific class of collision:
+
+| Pass | What it checks |
+|------|---------------|
+| Pass 0 | Cross-slide consistency — same diagram on multiple slides must be identical except for deliberate changes |
+| Pass 1 | Bézier curves first — computes max curve depth using `(chord/2) × tan(bend/2)`, checks every label against the danger zone |
+| Pass 2 | Gap calculations — estimates label width in cm, compares against usable space between nodes |
+| Pass 3 | Arrow label keywords — every label must have `above`, `below`, `left`, or `right` |
+| Pass 4 | Boundary rule — labels within 0.4cm of any circle, rectangle, or filled shape are a collision |
+| Pass 5 | Margin check — minimum clearances between all object pairs |
+
+**Most common pattern it catches:** Step labels on flow diagrams that are wider than the arrow between boxes — they look right in code but overlap box text when rendered.
+
+**Full formulas and reference tables:** `compiledeck/tikz_rules.md`
+
+**Usage:** `/tikz path/to/deck.tex`
+
+### 6. Additional Commands
 
 **Location:** `.claude/commands/`
 
@@ -213,7 +238,8 @@ MixtapeTools/
 │   │   └── README.md        # Full essay, origin story, six steps
 │   ├── split-pdf/           # Documentation and examples for the split-pdf skill
 │   │   └── README.md        # Detailed guide with methodology and examples
-│   └── newproject/          # Documentation for the new-project scaffold skill
+│   ├── newproject/          # Documentation for the new-project scaffold skill
+│   └── tikz/                # Documentation for the TikZ collision audit skill
 │       └── README.md        # Philosophy, folder purposes, installation
 ├── .claude/
 │   ├── commands/             # Slash commands (invoke with /command-name)
@@ -223,6 +249,8 @@ MixtapeTools/
 │   └── skills/
 │       ├── fletcher/         # Skill: own all the numbers
 │       │   └── SKILL.md     # Instructions Claude follows (invoke with /fletcher)
+│       ├── tikz/             # Skill: audit and fix TikZ visual collisions
+│       │   └── SKILL.md     # Instructions Claude follows (invoke with /tikz)
 │       ├── split-pdf/        # Skill: download, split, and deep-read PDFs
 │       │   ├── SKILL.md     # Instructions Claude follows
 │       │   └── methodology.md # Why this method works (for humans)
