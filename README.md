@@ -155,6 +155,26 @@ A Claude Code **skill** — an invocable `/split-pdf` command that automates the
 
 **Usage:** Type `/split-pdf path/to/paper.pdf` or `/split-pdf "search query for paper"`
 
+### 3b. Beautiful Deck (End-to-End Deck Creation)
+
+**Location:** [`skills/beautiful_deck/`](skills/beautiful_deck/) | `.claude/skills/beautiful_deck/SKILL.md` (actual skill)
+
+A Claude Code **skill** — invoke with `/beautiful_deck` — that runs the full deck-generation pipeline. This is the operational version of the prompt that used to live at `presentations/deck_generation_prompt.md`.
+
+**What the skill enforces:**
+
+- **Audience triage before any slide is written** — commits to a rhetorical balance (ethos / pathos / logos) that fits the audience (academic seminar, teaching lecture, conference talk, working deck, external non-academic)
+- **Original theme, never boilerplate** — a custom `.sty` tuned to the audience. May build on `metropolis`, `moloch`, `focus`, etc. as a foundation, but a reader should not be able to tell what theme package is underneath
+- **Pedagogical movement: Narrative → Application → Picture → Codeblock → Technical** — intuition first, technical last. The anti-pattern is the lecture that opens with definitions and ends with an example "for intuition"
+- **Format flexibility** — Beamer by default. Accepts Quarto, Typst, reveal.js, Marp on explicit user request
+- **Code-first figure generation** — standalone scripts run before `\includegraphics{}` is written
+- **Zero-warning compile loop** — Overfull / Underfull / font / reference warnings all must return zero at every checkpoint, not just the final compile
+- **`/tikz` cleanup** — invoked automatically to catch label collisions and coordinate drift
+- **Rhetoric audit (sub-agent)** — checks titles-as-assertions, one-idea-per-slide, MB/MC balance, narrative arc, Devil's Advocate presence
+- **Graphics audit (sub-agent)** — checks numerical accuracy, label positioning, axis coherence, color consistency, font sizing
+
+**Usage:** `/beautiful_deck [optional content path or description]`
+
 ### 4. Compile Deck (Beamer Presentations with the Rhetoric of Decks)
 
 **Location:** `.claude/commands/compiledeck.md`

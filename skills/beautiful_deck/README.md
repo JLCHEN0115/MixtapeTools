@@ -1,0 +1,114 @@
+# Beautiful Deck (`/beautiful_deck`)
+
+> **End-to-end beautiful deck creation, from blank slate to audited, compiled PDF with accompanying scripts for students.**
+
+`/beautiful_deck` is the operational version of the deck-generation prompt that used to live at [`presentations/deck_generation_prompt.md`](../../presentations/). Rather than re-pasting the prompt each time, invoke the skill.
+
+---
+
+## What it does
+
+`/beautiful_deck` is the full pipeline:
+
+1. **Triage** — gathers the audience, content source, aesthetic path, code language, output format, and one-sentence takeaway before touching any slides.
+2. **Design an original theme** — builds a custom `.sty` or preamble tuned to the audience. Never boilerplate. A reader should not be able to guess what theme package is underneath.
+3. **Design the narrative arc** — writes a one-page outline enforcing the pedagogical movement `Narrative → Application → Picture → Codeblock → Technical`. Shows the outline to the user for approval before writing any slides.
+4. **Generate figures and tables code-first** — writes standalone R / Python / Stata scripts, runs them, saves figures and tables, and only then writes the `\includegraphics{}` and `\input{}` calls in the deck.
+5. **Write the slides** — one idea per slide, assertion titles, no wall of sentences, MB/MC equivalence across the deck.
+6. **Compile and fix warnings** — runs the compile loop until `Overfull`, `Underfull`, font, and fatal errors all return zero counts.
+7. **Run `/tikz`** — invokes the measurement-based visual collision audit to catch TikZ label overlaps, Bézier curve problems, and ggplot/matplotlib labels clipped at boundaries.
+8. **Rhetoric audit (second agent)** — dispatches a sub-agent to verify titles-are-assertions, one-idea-per-slide, MB/MC balance, narrative arc, Devil's Advocate presence, and audience fit.
+9. **Graphics audit (third agent)** — dispatches a second sub-agent focused only on numerical accuracy of figures/tables, label positioning, axis coherence, color consistency, and font sizing.
+10. **Final compile** — recompiles to a clean state and delivers.
+
+## Why the pedagogical movement matters
+
+The single most important rule in this skill is the ordering:
+
+**Narrative → Application → Picture → Codeblock → Technical**
+
+Every section, every slide sequence, every topic must move in this order. Not the reverse.
+
+The anti-pattern is the lecture that opens with definitions, proves a theorem, and then offers an example at the end "for intuition." That treats technical content as primary and intuition as decorative. Scott's pedagogy is the opposite: the intuition *is* the content, and the technical statement is what the audience walks *away* with, not what they walk in with.
+
+The skill enforces this at every slide-sequencing step. If the agent catches itself writing a technical slide before the picture that motivates it, it backs up and writes the picture first.
+
+## Why an original theme matters
+
+Aristotle's principle of **ethos** (credibility) is partially visual. An audience that sees a default Beamer theme in the first five seconds has already scored the speaker lower on preparation and care. An original, audience-tuned aesthetic earns back the attention budget before the first content slide arrives.
+
+The skill requires:
+
+- **Beamer default** — a custom `.sty` file or inline preamble fully styled.
+- **Theme packages as foundation, not as identity** — you may build on top of `metropolis`, `moloch`, `focus`, `beamerposter`, etc. for sane spacing defaults, but you MUST override colors, fonts, frame-title style, title slide, and bullets enough that the result is visually unrecognizable as the source theme.
+- **No defaults shipped** — under no circumstances should the deck land in Scott's hands with boilerplate styling.
+
+For alternative formats (Quarto, reveal.js, Typst), the same rule applies — custom CSS, custom style blocks, overridden defaults.
+
+## The Three Laws (inherited from Rhetoric of Decks)
+
+1. **Beauty is function.** Beauty in presentation is clarity made visible. Decoration without function is noise.
+2. **Cognitive load is the enemy.** One idea per slide. Two max for inseparable contrasts.
+3. **The slide serves the spoken word.** If your slides can be understood without you speaking, you have written a document and called it a presentation.
+
+## The Aristotelian triad
+
+The rhetorical balance changes with audience. The skill's triage step (Q2) commits to a specific balance before any slides are written.
+
+| Audience | Logos | Ethos | Pathos |
+|---|---|---|---|
+| Academic seminar (PhD-level, research talk) | 50% | 40% | 10% |
+| Teaching lecture | 45% | 20% | 35% |
+| Conference presentation (20 min) | 50% | 35% | 15% |
+| Working deck (coauthors / future self) | 60% | 30% | 10% |
+| External non-academic (policy, media, industry) | 30% | 25% | 45% |
+
+## Usage
+
+```
+/beautiful_deck
+```
+
+with optional argument pointing to content:
+
+```
+/beautiful_deck path/to/lecture_notes.md
+/beautiful_deck "restructure the deck in decks/2024_seminar/ for an undergraduate audience"
+/beautiful_deck "a 20-minute conference presentation on the CBS continuous DiD paper, aimed at applied microeconomists"
+```
+
+The skill will ask clarifying questions if anything in the triage step is missing.
+
+## Output structure
+
+```
+<deck_name>/
+├── <deck_name>.tex          # Main Beamer source (or .qmd / .typ / .html for alternative formats)
+├── <deck_name>.pdf          # Compiled deck (clean)
+├── <deck_name>_outline.md   # The approved outline
+├── preamble.tex             # If the preamble is factored out
+├── scripts/
+│   ├── figure_1.R           # Standalone, runnable by students
+│   └── ...
+├── figures/
+│   ├── figure_1.pdf
+│   └── ...
+└── tables/
+    ├── table_1.tex          # LaTeX fragment
+    └── ...
+```
+
+## Related skills
+
+- **`/compiledeck`** — the mechanical compile loop and preamble templates. `/beautiful_deck` calls this for compile mechanics and palette references rather than duplicating them.
+- **`/tikz`** — the measurement-based TikZ collision audit. Invoked during the visual cleanup step.
+- **`/referee2`** — the full five-audit protocol. `/beautiful_deck` uses a rhetoric-scoped variant of it in the audit step.
+- **`/split-pdf`** — if the source content is a paper Scott is reading, split it first and work from the summaries.
+
+## The philosophy behind it
+
+Full essays:
+- [`presentations/rhetoric_of_decks.md`](../../presentations/rhetoric_of_decks.md) — the operational principles
+- [`presentations/rhetoric_of_decks_full_essay.md`](../../presentations/rhetoric_of_decks_full_essay.md) — the 600-line intellectual genealogy from Aristotle through LLMs
+
+`/beautiful_deck` is the operational skill version of those essays. You don't need to re-read them to invoke it — the skill handles the workflow — but the essays explain *why* the principles work.
